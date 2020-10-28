@@ -1,0 +1,94 @@
+def rec_knapsack(wt,val,w,n):
+    if w==0 or n==0 :          # base condition
+        return 0
+    elif wt[n-1]>w:
+        return rec_knapsack(wt,val,w,n-1)
+    
+    else:
+        return max(val[n-1]+rec_knapsack(wt,val,w-wt[n-1],n-1),rec_knapsack(wt,val,w,n-1))
+    
+        
+
+def recursive_knapsack():
+    print('give me values of weighted array   ')
+    wt=list(map(int,input().split()))
+    
+    print('give me values of valume array   ')
+    val=list(map(int,input().split()))
+    print('what is weight of your knapsack   ')
+    n=len(val)
+    w=int(input())
+    print(rec_knapsack(wt,val,w,n))
+
+
+
+
+def memo_knapsack(wt,val,w,n):
+    t=[[-1 for i in range(w+1)] for j in range(n+1)]
+    if w==0 or n==0:
+        return 0
+    if t[n][w]!=-1:
+        return t[n][w]
+    elif wt[n-1]<=w:
+        t[n][w]=max(val[n-1]+memo_knapsack(wt,val,w-wt[n-1],n-1),memo_knapsack(wt,val,w,n-1))
+    else:
+        t[n][w]=memo_knapsack(wt,val,w,n-1)
+    return t[n][w]
+    
+   
+
+def memoized_knapsack():
+    print('give me values of weighted array   ')
+    wt=list(map(int,input().split()))
+    
+    print('give me values of valume array   ')
+    val=list(map(int,input().split()))
+    print('what is weight of your knapsack   ')
+    n=len(val)
+    w=int(input())
+    print(memo_knapsack(wt,val,w,n))
+    
+def DP_knapsack(wt,val,w,n):
+    t=[[0 for i in range(w+1)] for j in range(n+1)]
+    for i in range(n+1):
+        for j in range(w+1):
+            if i==0 or j==0 :
+                t[i][j]=0
+            elif wt[i-1]<=j:
+                t[i][j]=max(val[i-1]+t[i-1][w-wt[i-1]],t[i-1][j])
+            else:
+                t[i][j]=t[i-1][j]
+    return t[n][w]
+                
+
+def dp_knapsack():
+    print('give me values of weighted array   ')
+    wt=list(map(int,input().split()))
+    
+    print('give me values of valume array   ')
+    val=list(map(int,input().split()))
+    print('what is weight of your knapsack   ')
+    n=len(val)
+    w=int(input())
+    print(DP_knapsack(wt,val,w,n))
+    
+
+    
+if __name__=='__main__':
+    while True:
+        print('\nPress 1 for 0_1_Knapsack using RECURSION: \n ')
+        print('\nPress 2 for 0_1_Knapsack using MEMOIZATION_DP: \n ')
+        print('\nPress 3 for 0_1_Knapsack using TOP-DOWN_DP: \n ')
+        print('\nPress anything else for Quit:\n  ')
+        x=int(input('Enter your choice.\n\n'))
+
+        if x==1:
+            recursive_knapsack()
+        elif x==2:
+            memoized_knapsack()
+        elif x==3:
+            dp_knapsack()
+        else:
+            print('Thanks !')
+            break
+            
